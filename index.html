@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="difficuly"> Select Difficulty</label>
+    <select name="difficuly" id="difficuly-drop-down">
+        <option value="" disabled selected hidden>Select difficulty</option>
+        <option value="easy" id="easy-option">Easy</option>
+        <option value="medium" id="medium-option">Medium</option>
+        <option value="hard" id="hard-option">Hard</option>
+    </select>
+    <ul><strong>Difficulty Options:</strong>
+        <li>Easy: Number between 0 and 10 | 3 Tries.</li>
+        <li>Medium: Number between 0 and 25 | 4 Tries.</li>
+        <li>Hard: Number between 0 and 50 | 5 Tries.
+        </li>
+    </ul>
+    <br> 
+    <label for="generate">Generate a random number:</label>
+    <button id="generate-button" name="generate">Generate Number</button>
+    <br> <br>
+    <button id="play-button">Play !</button>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
