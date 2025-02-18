@@ -39,7 +39,9 @@ hardOption.addEventListener('click', e => {
 })
 
 const playButton = document.getElementById("play-button")
-playButton.addEventListener('click',e=> {
+playButton.addEventListener('click', play)
+
+function play(e){
     let won = false
     let answer;
     answer = prompt("Give a number")
@@ -58,4 +60,11 @@ playButton.addEventListener('click',e=> {
     if(won){
         alert("You Won !")
     }
-})
+    let playAgain = prompt('Do you want to play again ? (Y/N)')
+    if(playAgain == 'Y'){
+        play(e)
+    }
+    else {
+        return
+    }
+}
