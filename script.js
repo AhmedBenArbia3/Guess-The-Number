@@ -1,70 +1,73 @@
 let difficultyIntervals = new Map([
     ["Easy", 10],
-    ["Medium", 25],         
-    ["Hard", 50]  
+    ["Medium", 25],
+    ["Hard", 50]
 ]);
 
-let difficulyTries = new Map([
+let difficultyTries = new Map([
     ["Easy", 3],
     ["Medium", 4],
     ["Hard", 5]
-])
+]);
 
-let difficultyOption;
+let difficultyOption = null;
 let randomNumber;
 let numberOfTriesLeft;
-const button = document.querySelector('#generate-button');
-button.addEventListener('click', e => {
-    console.log();
-    randomNumber = Math.floor((Math.random() * difficultyIntervals.get(difficultyOption)));
-    console.log(randomNumber);
-})
 
-const easyOption = document.getElementById("easy-option")
-const mediumOption = document.getElementById("medium-option")
-const hardOption = document.getElementById("hard-option")
+const generateButton = document.querySelector('#generate-button');
+const difficultyDropdown = document.getElementById("difficulty-drop-down");
+const playButton = document.getElementById("play-button");
 
-easyOption.addEventListener('click', e => {
-    console.log("Easy");
-    difficultyOption = "Easy"
-    numberOfTriesLeft = difficulyTries.get(difficultyOption)
-})
-mediumOption.addEventListener('click', e => {
-    difficultyOption = "Medium"
-    numberOfTriesLeft = difficulyTries.get(difficultyOption)
-})
-hardOption.addEventListener('click', e => {
-    difficultyOption = "Hard"
-    numberOfTriesLeft = difficulyTries.get(difficultyOption)
-})
 
-const playButton = document.getElementById("play-button")
-playButton.addEventListener('click', play)
+difficultyDropdown.addEventListener("change", (e) => {
+    difficultyOption = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+    numberOfTriesLeft = difficultyTries.get(difficultyOption);
+    console.log(`Selected Difficulty: ${difficultyOption}, Tries: ${numberOfTriesLeft}`);
+});
 
-function play(e){
-    let won = false
-    let answer;
-    answer = prompt("Give a number")
-    while(!won && numberOfTriesLeft > 1){
-        if(answer != randomNumber){
-            numberOfTriesLeft--
-            answer = prompt(`Wrong answer, ${numberOfTriesLeft} tries left. Try again:`)
+
+generateButton.addEventListener('click', () => {
+    if (!difficultyOption) {
+        alert("Please select a difficulty first!");
+        return;
+    }
+    randomNumber = Math.floor(Math.random() * (difficultyIntervals.get(difficultyOption) + 1));
+    console.log(`Generated Number (hidden): ${randomNumber}`);
+});
+
+
+playButton.addEventListener('click', play);
+
+function play() {
+    if (!randomNumber) {
+        alert("You must generate a number first!");
+        return;
+    }
+
+    let won = false;
+    let answer = parseInt(prompt("Guess the number:"));
+
+    while (!won && numberOfTriesLeft >= 1) {
+        if (answer !== randomNumber) {
+            numberOfTriesLeft--;
+            if (numberOfTriesLeft > 0) {
+                answer = parseInt(prompt(`Wrong! ${numberOfTriesLeft} tries left. Try again:`));
+            }
+        } else {
+            won = true;
         }
-        else if (answer == randomNumber){
-            won = true
-        }
     }
-    if(numberOfTriesLeft == 1){
-        alert("You lost !")
+
+    if (won) {
+        alert("You Won!");
+    } else {
+        alert(`You lost! The correct number was ${randomNumber}.`);
     }
-    if(won){
-        alert("You Won !")
-    }
-    let playAgain = prompt('Do you want to play again ? (Y/N)')
-    if(playAgain == 'Y'){
-        play(e)
-    }
-    else {
-        return
+
+    let playAgain = prompt("Do you want to play again? (Y/N)").toLowerCase();
+    if (playAgain === 'y') {
+        play();
+    } else {
+        alert("Thanks for playing!");
     }
 }
